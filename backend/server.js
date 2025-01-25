@@ -2,6 +2,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 //Local Imports
 import userRoutes from './routes/user.routes.js';
@@ -19,6 +20,16 @@ dotenv.config();
 // Middleware
 app.use(express.json()); // to get data from req.body
 app.use(cookieParser());
+
+app.use(
+  cors({
+    origin: 'http://localhost:3000', // Allow frontend origin
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Allow content-type in headers
+  })
+);
+
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.send('Server started at ' + PORT)
